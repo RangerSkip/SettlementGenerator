@@ -28,6 +28,7 @@ class Settlement:
 	def __init__(self):
 		self.create_name()
 		self.create_size()
+		self.create_politics()
 		self.create_features()
 		self.create_buildings()
 		self.create_purpose()
@@ -496,5 +497,5 @@ for x in range(user):
 	for elem in MySettlements[x].buildings:
 		file.write(elem + '\n')
 	file.write("Notes: \n")
-	
+
 	file.close()
