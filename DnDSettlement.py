@@ -13,6 +13,7 @@ Functionality of this Program:
 		Name:
 		Settlement Type: (Farm, Hamlet, etc)
 		Population:
+		Politics:
 		Purpose:
 		Notable Features:
 		Resources:
@@ -33,10 +34,11 @@ class Settlement:
 		name = ""
 		settlementType = ""
 		population = 1
+		politics = ""
 		purpose = ""
+		features = ""
 		resources = ""
 		buildings = ""
-		features = ""
 		filename = ""
 
 	First_Name = [
@@ -323,6 +325,15 @@ class Settlement:
 		"Wine (type depends on soil and tradition)"
 	]
 
+	Settlement_Politics = [
+	"Magocracy",
+	"Theocracy",
+	"Autocracy",
+	"Plutocracy",
+	"Democracy",
+	"Anarchy"
+	]
+
 	Settlement_Purpose = [
 	"Road/River convergance",
 	"Road/River convergance",
@@ -408,6 +419,9 @@ class Settlement:
 	def create_features(self):
 		Settlement.features = "Notable Features: {}".format(random.choice(Settlement.Settlement_Features))
 
+	def create_politics(self):
+		Settlement.politics = "Politics: {}".format(random.choice(Settlement.Settlement_Politics))
+
 	def create_buildings(self):
 		if Settlement.settlementType == 'Type: Farm':
 			Settlement.buildings = Settlement.FBuildings
@@ -419,6 +433,8 @@ class Settlement:
 			Settlement.buildings = Settlement.TBuildings
 		else:
 			Settlement.buildings = Settlement.CBuildings
+
+
 	def create_purpose(self):
 		var = random.randint(0, 10)
 
@@ -470,21 +486,15 @@ for x in range(user):
 	file = open(filename, 'w+')
 
 	file.write(MySettlements[x].name + '\n')
-
 	file.write(MySettlements[x].settlementType + '\n')
-
 	file.write(MySettlements[x].population + '\n')
-
+	file.write(MySettlements[x].politics + '\n')
 	file.write(MySettlements[x].purpose + '\n')
-
 	file.write(MySettlements[x].features + '\n')
-
 	file.write(MySettlements[x].resources + '\n')
-
 	file.write("Buildings: " + '\n')
 	for elem in MySettlements[x].buildings:
 		file.write(elem + '\n')
-
 	file.write("Notes: \n")
-
+	
 	file.close()
