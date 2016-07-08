@@ -6,6 +6,7 @@ This application creates a folder called Settlements and creates a text file in 
 		Name:
 		Settlement Type: (Farm, Hamlet, etc)
 		Population:
+		Politics:
 		Purpose:
 		Notable Features:
 		Resources:
