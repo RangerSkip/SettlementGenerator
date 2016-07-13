@@ -1,28 +1,13 @@
-Settlement_Purpose = [
-	"Road/River convergance",
-	"Road/River convergance",
-	"Road/River convergance",
-	"Natural resource",
-	"Natural resource",
-	"Natural resource",
-	"Mining settlement",
-	"Mining settlement",
-	"Mining settlement",
-	"Military/Strategic Value (Prior/Current staging point/important landmark)"
-]
+Settlement_Purpose = ["Road/River convergance"] * 3 + \
+					 ["Natural resource"] * 3 + \
+					 ["Mining settlement"] * 3 + \
+					 ["Military/Strategic Value (Prior/Current staging point/important landmark)"]
 
-Trade_Resource = [
-	"Grazing Land",
-	"Grazing Land",
-	"Grazing Land",
-	"Grazing Land",
-	"Flower Farms",
-	"Flower Farms",
-	"Grain Farms",
-	"Grain Farms",
-	"Natural Oils/Fuels",
-	"Rare Animals"
-]
+Trade_Resource = ["Grazing Land"] * 4 + \
+				 ["Flower Farms"] * 2 + \
+				 ["Grain Farms"] * 2 + \
+				 ["Natural Oils/Fuels"] + \
+				 ["Rare Animals"]
 
 Metal_Resouce = [
 	"Copper",

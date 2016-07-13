@@ -47,87 +47,66 @@ class Settlement:
 		first = random.choice(Names.First_Name)
 		second = random.choice(Names.Second_Name)
 
-		Settlement.filename = first+second
+		self.filename = first+second
 
-		Settlement.name = "Name: "+ first+second
+		self.name = "Name: {}".format(first+second)
 
 	def create_size(self):
 		population = random.randint(0, 4)
 		people = random.randint(1, 10)
 
-		if population == 0:
-			#Farm
-			Settlement.settlementType = "Type: "+Type.Settlement_Type[0]
-			Settlement.population = "Population: "+str(random.randint(2,20))
+		pops = {
+			'Farm': lambda: people,
+			'Hamlet': lambda: people*10,
+			'Village': lambda: people*100,
+			'Town': lambda: people*1000,
+			'City': lambda: people*500+10000
+		}
 
-		elif population == 1:
-			#Hamlet
-			Settlement.settlementType = "Type: "+Type.Settlement_Type[1]
-			Settlement.population = "Population: "+str(people*10)
+		kind, pop = random.choice(list(pops.items()))
 
-		elif population == 2:
-			#Village
-			Settlement.settlementType = "Type: "+Type.Settlement_Type[2]
-			Settlement.population = "Population: "+str(people*100)
+		self.settlementType = "Type: {}".format(kind)
+		self.population = "Population: {}".format(pop())
 
-		elif population == 3:
-			#Town
-			Settlement.settlementType = "Type: "+Type.Settlement_Type[3]
-			Settlement.population = "Population: "+str(people*1000)
-
-		else:
-			#City
-			Settlement.settlementType = "Type: "+Type.Settlement_Type[4]
-			Settlement.population = "Population: "+str(people*500+10000)
 
 	def create_features(self):
-		Settlement.features = "Notable Features: {}".format(random.choice(Features.Settlement_Features))
+		self.features = "Notable Features: {}".format(random.choice(Features.Settlement_Features))
 
 	def create_politics(self):
-		Settlement.politics = "Politics: {}".format(random.choice(Politics.Settlement_Politics))
+		self.politics = "Politics: {}".format(random.choice(Politics.Settlement_Politics))
 
 	def create_buildings(self):
-		if Settlement.settlementType == 'Type: Farm':
-			Settlement.buildings = Buildings.FBuildings
-		elif Settlement.settlementType == 'Type: Hamlet':
-			Settlement.buildings = Buildings.HBuildings
-		elif Settlement.settlementType == 'Type: Village':
-			Settlement.buildings = Buildings.VBuildings
-		elif Settlement.settlementType == 'Type: Town':
-			Settlement.buildings = Buildings.TBuildings
-		else:
-			Settlement.buildings = Buildings.CBuildings
-
+		self.buildings = Buildings.string_to_buildings[self.settlementType]
 
 	def create_purpose(self):
 		var = random.randint(0, 10)
 
 		if var <= 2:
 			#Road/River Convergence
-			Settlement.purpose = "Purpose: Road/River Convergence"
-			Settlement.resources = "Resources: "+random.choice(Purpose.Trade_Resource)
+			self.purpose = "Purpose: Road/River Convergence"
+			self.resources = "Resources: {}".format(random.choice(Purpose.Trade_Resource))
 
 		elif 3 <= var <= 5:
 			#Natural Resource
-			Settlement.purpose = "Purpose: Natural Resources"
+			self.purpose = "Purpose: Natural Resources"
 			temp1 = random.choice(Purpose.Trade_Resource)
 			temp2 = random.choice(Purpose.Trade_Resource)
 
 			if temp1 == temp2:
-				Settlement.resources = "Resources: "+temp1+". This land is doubly fertile and has a 50% chance to have rare or legendary crops/creatures/fuels."
+				self.resources = "Resources: {}. This land is doubly fertile and has a 50% chance to have rare or legendary crops/creatures/fuels.".format(temp1)
 			else:
-				Settlement.resources = "Resources: "+temp1+" and "+temp2
+				self.resources = "Resources: {} and {}".format(temp1, temp2)
 
 
 		elif var == 6 or var == 7:
 			#Mining Settlement
-			Settlement.purpose = "Purpose: Mining Settlement"
-			Settlement.resources = "Resources: "+random.choice(Purpose.Metal_Resouce)+" and "+random.choice(Purpose.Trade_Resource)
+			self.purpose = "Purpose: Mining Settlement"
+			self.resources = "Resources: {} and {}".format(random.choice(Purpose.Metal_Resouce) ,random.choice(Purpose.Trade_Resource))
 
 		else:
 			#Military/Strategic Value
-			Settlement.purpose = "Purpose: Military/Strategic Value"
-			Settlement.resources = "Resources: "+random.choice(Purpose.Metal_Resouce)
+			self.purpose = "Purpose: Military/Strategic Value"
+			self.resources = "Resources: ".format(random.choice(Purpose.Metal_Resouce))
 
 
 def make_sure_path_exists(path):
@@ -141,24 +120,27 @@ MySettlements = []
 
 make_sure_path_exists('Settlements')
 
-user = int(input("How many settlements do you want? "))
-for x in range(user):
+while True:
+	try:
+		num_input = int(input("How many settlements do you want? "))
+		break
+	except ValueError:
+		print("Not a valid integer")
+
+for x in range(num_input):
 	MySettlements.append(Settlement())
 	filename = "Settlements/{}".format(MySettlements[x].filename)
 	#print(filename)
 
-	file = open(filename, 'w+')
-
-	file.write(MySettlements[x].name + '\n')
-	file.write(MySettlements[x].settlementType + '\n')
-	file.write(MySettlements[x].population + '\n')
-	file.write(MySettlements[x].politics + '\n')
-	file.write(MySettlements[x].purpose + '\n')
-	file.write(MySettlements[x].features + '\n')
-	file.write(MySettlements[x].resources + '\n')
-	file.write("Buildings: " + '\n')
-	for elem in MySettlements[x].buildings:
-		file.write(elem + '\n')
-	file.write("Notes: \n")
-
-	file.close()
+	with open(filename, 'w+') as f:
+		f.write(MySettlements[x].name + '\n')
+		f.write(MySettlements[x].settlementType + '\n')
+		f.write(MySettlements[x].population + '\n')
+		f.write(MySettlements[x].politics + '\n')
+		f.write(MySettlements[x].purpose + '\n')
+		f.write(MySettlements[x].features + '\n')
+		f.write(MySettlements[x].resources + '\n')
+		f.write("Buildings: " + '\n')
+		for elem in MySettlements[x].buildings:
+			f.write('\t' + elem + '\n')
+		f.write("Notes: \n")
